@@ -1,465 +1,733 @@
-<!DOCTYPE html>
-<html lang="en">
-<style>
-    html {
-        overflow-x: hidden;
-    }
-</style>
-
+<!doctype html>
+<html lang="nl">
 <head>
-    <title>van Leeuwen-Strategy Consulting</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="utf-8">
+<title>VAN LEEUWEN — Strategy Consulting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---------- tokens ---------- */
+  :root {
+    --bg:        #F1ECE1;
+    --bg-2:      #E8E2D3;
+    --paper:     #FBF8F1;
+    --ink:       #1F2418;
+    --ink-soft:  #4A5040;
+    --muted:     #7A7A6E;
+    --rule:      #C9C2B0;
+    --accent:    #4C5E3D;
+    --accent-2:  #8A9B6E;
+    --ochre:     #B58A3C;
+    --radius:    2px;
+    --maxw:      1240px;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html, body { margin:0; padding:0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Work Sans', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .serif { font-family: 'Spectral', 'Georgia', serif; font-weight: 400; letter-spacing: -0.005em;}
+  .mono  { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  a { color: inherit; }
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-        </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
-        </script>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 40px; }
 
-    <!-- <link href="../dist/css/app.a8ab92af.css" rel="preload" as="style"> -->
-    <!-- <link href="../dist/js/app.35c87553.js" rel="preload" as="script"> -->
-    <!-- <link href="../dist/js/chunk-vendors.d8b488bd.js" rel="preload" as="script"> -->
-    <!-- <link href="../dist/css/app.a8ab92af.css" rel="stylesheet"> -->
-    <link rel="stylesheet" type="text/css" href="stylesheet.css" media="screen" />
-    <style>
-        body {
-            overflow: hidden;
-            margin: 0px;
-            padding: 0px;
-        }
-    </style>
+  /* ---------- top bar ---------- */
+  header.top {
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: saturate(1.1);
+  }
+  .top-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: var(--ink);
+  }
+  .brand img.mark {
+    height: 36px; width: auto;
+    display: block;
+  }
+  .brand .name {
+    font-family: 'Spectral', serif;
+    font-size: 20px; letter-spacing: 0.02em;
+  }
+  .brand .name b { font-weight: 500; }
+  nav.top-nav { display:flex; gap: 36px; }
+  nav.top-nav a {
+    text-decoration: none; color: var(--ink-soft);
+    font-size: 13px; letter-spacing: 0.04em;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: all .15s ease;
+  }
+  nav.top-nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .top-cta {
+    font-size: 13px; text-decoration: none; color: var(--paper);
+    background: var(--ink); padding: 10px 18px;
+    border-radius: 999px;
+    display: inline-flex; align-items:center; gap: 8px;
+    transition: background .15s ease;
+  }
+  .top-cta:hover { background: var(--accent); }
+  .top-cta .dot { width:6px; height:6px; border-radius:50%; background: var(--accent-2); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding: 96px 0 72px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero .eyebrow {
+    display: flex; align-items: center; gap: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+  }
+  .hero .eyebrow .line { width: 48px; height: 1px; background: var(--ink-soft); }
+  .hero h1 {
+    font-family: 'Spectral', serif;
+    font-weight: 300;
+    font-size: clamp(44px, 6.4vw, 92px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 40px;
+    max-width: 18ch;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+  .hero-lede {
+    font-family: 'Spectral', serif;
+    font-size: 21px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 46ch;
+  }
+  .hero-meta {
+    display: flex; flex-direction: column; gap: 22px;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+  }
+  .hero-meta .row { display:flex; flex-direction:column; gap: 4px; }
+  .hero-meta .label { color: var(--muted); }
+  .hero-meta .val { font-family:'Spectral', serif; font-size: 17px; }
+  .hero-meta .val a { text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .hero-meta .val a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+  .hero-tag {
+    position:absolute; top: 96px; right: 40px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* ---------- approach / three pillars ---------- */
+  section.pillars {
+    padding: 88px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-head {
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    gap: 80px;
+    margin-bottom: 56px;
+    align-items: start;
+  }
+  .section-head .kicker { color: var(--ink-soft); padding-top: 6px; }
+  .section-head h2 {
+    font-family:'Spectral', serif;
+    font-weight: 300;
+    font-size: clamp(30px, 3.2vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0;
+    max-width: 24ch;
+  }
+  .section-head h2 em { font-style: italic; color: var(--accent); }
+
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .pillar {
+    padding: 36px 32px 40px 0;
+    border-right: 1px solid var(--rule);
+    display: flex; flex-direction: column; gap: 18px;
+    min-height: 260px;
+  }
+  .pillar:last-child { border-right: none; padding-right: 0; }
+  .pillar:not(:first-child) { padding-left: 32px; }
+  .pillar .num {
+    color: var(--accent);
+    font-family:'Spectral', serif;
+    font-size: 22px;
+    font-style: italic;
+  }
+  .pillar h3 {
+    font-family:'Spectral', serif;
+    font-weight: 400;
+    font-size: 24px;
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .pillar p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+  .pillar ul { list-style: none; padding: 0; margin: auto 0 0; display: flex; flex-direction: column; gap: 6px; }
+  .pillar ul li {
+    font-size: 13px; color: var(--ink-soft);
+    display:flex; gap: 10px; align-items: baseline;
+  }
+  .pillar ul li::before { content:"—"; color: var(--accent); }
+
+  /* ---------- cases ---------- */
+  section.cases { padding: 88px 0; background: var(--bg-2); border-bottom: 1px solid var(--rule); }
+  .case {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 56px;
+    padding: 48px 0;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+  .case:last-child { border-bottom: 1px solid var(--rule); }
+  .case .left { display: flex; flex-direction: column; gap: 20px; }
+  .case .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 6px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--paper);
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft);
+    width: max-content;
+  }
+  .case .badge .sw { width:8px; height:8px; border-radius:2px; }
+
+  .case .client-logo {
+    display: block;
+    height: 72px;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    object-position: left center;
+    margin-bottom: 4px;
+  }
+  .case .role { color: var(--ink-soft); font-size: 15px; }
+  .case .meta-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .case .meta-list .mi {
+    display: grid; grid-template-columns: 90px 1fr; gap: 12px;
+    font-size: 13px;
+    padding: 6px 0;
+    border-top: 1px dashed var(--rule);
+  }
+  .case .meta-list .mi:first-child { border-top: none; }
+  .case .meta-list .k { color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; font-size: 11px; padding-top: 3px; }
+  .case .meta-list .v { color: var(--ink); }
+
+  .case .right { display: flex; flex-direction: column; gap: 24px; }
+  .case p.summary { margin: 0; font-size: 16px; line-height: 1.6; color: var(--ink); max-width: 58ch; }
+  .case .quote {
+    border-left: 2px solid var(--accent);
+    padding: 6px 0 6px 22px;
+    font-family:'Spectral', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 54ch;
+  }
+  .case .attr {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .case .attr b { color: var(--ink); font-weight: 500; }
+  .case .link {
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    width: max-content;
+  }
+
+  /* ---------- academy ---------- */
+  section.academy {
+    padding: 96px 0;
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .academy-grid {
+    display:grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .academy h2 {
+    font-family:'Spectral', serif;
+    font-weight: 300;
+    font-size: clamp(30px, 3.4vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+    max-width: 16ch;
+  }
+  .academy h2 em { font-style: italic; color: var(--accent-2); }
+  .academy p { color: #C8C8B8; max-width: 46ch; font-size: 16px; }
+  .academy .tag { color: var(--accent-2); margin-bottom: 20px; }
+  .academy-card {
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 4px;
+    padding: 28px;
+    background: rgba(255,255,255,.03);
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .academy-card .logo-slot {
+    background: var(--paper);
+    border-radius: 4px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 110px;
+  }
+  .academy-card .logo-slot img {
+    max-height: 72px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .academy-card .row2 { display: flex; align-items: center; gap: 14px; }
+  .academy-card .av {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-2), var(--accent));
+    display:grid; place-items:center;
+    font-family:'Spectral', serif; font-size: 14px;
+    color: var(--paper);
+  }
+  .academy-card .name { font-family:'Spectral', serif; font-size: 18px; }
+  .academy-card .sub { font-size: 12px; color: #9C9C8C; }
+  .academy-card .stats { display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; border-top: 1px solid rgba(255,255,255,.08); padding-top: 18px; }
+  .academy-card .stat .n { font-family:'Spectral', serif; font-size: 28px; color: var(--paper); }
+  .academy-card .stat .l { font-size: 11px; color: #9C9C8C; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px;}
+  .academy-card .cta {
+    margin-top: 4px;
+    align-self: flex-start;
+    color: var(--bg);
+    background: var(--accent-2);
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+  }
+
+  /* ---------- contact ---------- */
+  section.contact { padding: 96px 0; border-bottom: 1px solid var(--rule); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+  .contact h2 {
+    font-family:'Spectral', serif;
+    font-weight: 300;
+    font-size: clamp(38px, 4.4vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+  }
+  .contact h2 em { font-style: italic; color: var(--accent); }
+  .contact .lede { font-family:'Spectral', serif; font-size: 19px; color: var(--ink-soft); max-width: 40ch; }
+  .contact .headshot-row { display: flex; gap: 18px; align-items: center; margin-top: 32px; }
+  .contact .headshot-row img {
+    width: 72px; height: 72px; border-radius: 50%;
+    object-fit: cover; border: 1px solid var(--rule);
+  }
+  .contact .headshot-row .who .n { font-family:'Spectral', serif; font-size: 18px; }
+  .contact .headshot-row .who .r { font-size: 13px; color: var(--muted); }
+
+  .contact-card {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--paper);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .contact-card .field {
+    display: grid; grid-template-columns: 90px 1fr; gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+  }
+  .contact-card .field:last-of-type { border-bottom: none; }
+  .contact-card .k { color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; font-size: 11px; }
+  .contact-card .v { font-family:'Spectral', serif; font-size: 17px; }
+  .contact-card .v a { text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .contact-card .actions { display:flex; gap: 10px; margin-top: 6px; }
+  .btn {
+    text-decoration: none; padding: 12px 18px;
+    border-radius: 999px; font-size: 13px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn.primary { background: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: var(--accent); }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: var(--paper); }
+
+  /* ---------- footer ---------- */
+  footer {
+    padding: 40px 0 28px;
+    font-size: 13px; color: var(--ink-soft);
+  }
+  .foot-inner { display:flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .foot-inner .left { display: flex; gap: 22px; align-items: baseline; }
+
+  @media (max-width: 900px){
+    .hero-grid, .academy-grid, .contact-grid, .section-head, .case { grid-template-columns: 1fr; gap: 32px; }
+    .pillar-grid { grid-template-columns: 1fr; }
+    .pillar { border-right: none; border-bottom: 1px solid var(--rule); padding: 24px 0 !important; }
+    .hero-tag { display: none; }
+    .wrap { padding: 0 24px; }
+    nav.top-nav { display: none; }
+  }
+</style>
 </head>
-
 <body>
-    <div class="app">
-        <div class="row padding-to-zero">
-            <div class="col bg-color-card">
-                <img src="images/logo_transparant.png" alt="transparant_logo" class="logo">
-            </div>
-        </div>
 
-        <!-- Banner -->
-        <br />
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="#">
+      <img class="mark" src="images/logo_transparant.png" alt="Van Leeuwen Strategy Consulting">
+      <span class="name"><b>VAN LEEUWEN</b> — Strategy Consulting</span>
+    </a>
+    <nav class="top-nav">
+      <a href="#approach">Aanpak</a>
+      <a href="#werk">Werk</a>
+      <a href="#academy">Academy</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="top-cta" href="#contact">
+      <span class="dot"></span> Plan een adviesgesprek
+    </a>
+  </div>
+</header>
 
-        <div class="row banner-bg-gray">
-            <div class='col-8 offset-2'>
-                <div class="row banner-padding">
-                    <p class="banner-text">
-                        VAN LEEUWEN – Strategy Consulting is opgericht door Rhea van Leeuwen en richt zich op het proces
-                        van communicatie overdracht. Wat is het doel van de communicatie en bij welke doelgroep wilt u
-                        impact maken zijn de basisvragen van een succesvolle communicatiestrategie. VAN LEEUWEN -
-                        Strategy
-                        Consulting brengt wetenschap en praktijk samen door middel van doortastend onderzoek, samengevat
-                        in direct bruikbare adviezen.
-                    </p>
-                    <p class="banner-text">
-                        Zowel voor advies over een enkel onderdeel, als een volledige communicatie- of campagnestrategie
-                        kan ik praktische inzichten en/of concrete output verschaffen.
-                    </p>
-                    <p class="banner-text">
-                        Graag werk ik samen met maatschappelijk georiënteerde partijen, zoals overheid, non-profit
-                        organisaties
-                        of bedrijven die maatschappelijk belang en rechtvaardigheid hoog in het vaandel hebben staan, óf
-                        hier
-                        graag stappen vooruit in willen zetten. Ik ben een betrokken gesprekspartner en door de juiste
-                        vragen
-                        te stellen vinden we hoe (nog meer) winst te behalen is in uw communicatie overdracht.
-                    </p>
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag mono">Est. 2020 · Amsterdam</div>
 
-                </div>
-            </div>
-        </div>
-
-        <!-- <hr class="horizontal-line"> -->
-        <br />
-
-        <!-- Contact -->
-
-        <div class="row contact-top-margin contact-bottom-margin">
-            <div class="col-12">
-
-                <div class="row contact-text contact-text-bold ">
-                    Wilt u meer weten over de mogelijkheden?
-                </div>
-                <div class="row contact-text">
-                    Mail gerust of plan een vrijblijvend adviesgesprek in.
-                </div>
-                <div class="row contact-top-margin contact-bottom-margin">
-                    <a class="btn contact-text-button contact-btn contact-btn-center"
-                        href="mailto:rhea@vanleeuwensc.nl">Neem contact op</a>
-                </div>
-            </div>
-        </div>
-
-
-        <br />
-
-        <!-- Projects -->
-        <div class="row projects-background">
-
-            <div class="col-2 col-sm-2 col-md-2 col-lg-2">
-                <a class="btn projects-text-button projects-btn projects-btn-center"
-                    data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </a>
-            </div>
-            <div class="col-8 col-sm-8 col-md-8 col-lg-8 projects-padding">
-                <!-- data-bs-ride="carousel" -->
-                <div id="carouselExampleIndicators" class="carousel slide" data-interval="300000">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active ">
-                            <div class="projects-card-margin">
-                                <div class="row ">
-                                    <div class="col-12 col-sm-4 col-md-4 projects-card-image">
-                                        <img src="images/rws_logo.png" alt="Rijkswaterstaat" class="projects-image">
-                                    </div>
-                                    <div class="col-12 col-sm-8 col-md-8">
-                                        <div class="projects-card-text">
-
-                                            Voor Rijkswaterstaat/ het Ministerie van Infrastructuur en Waterstaat
-                                            ontwikkelde ik de strategie voor de
-                                            campagne tegen zwerfafval voor 2021. De focus van dit onderzoek lag op een
-                                            uitdagende groep: jongeren.
-                                            De resultaten zijn <a
-                                                href="https://schoudersonderschoon.nl/toolbox/toolkit-campagne-plek-schoon-achterlaten-gefikst/">hier</a>
-                                            terug te vinden.
-                                            <br><br>
-                                            <b>Lisanne van Geffen - Adviseur zwerfafval & circulaire economie bij
-                                                Rijkswaterstaat</b>
-                                            <br>
-                                            <i>“VAN LEEUWEN – Strategy Consulting heeft het doelgroepen onderzoek
-                                                uitgevoerd in de aanloop naar de
-                                                zwerfafval campagne 2021. Rhea is analytisch sterk en zeer gedreven.
-                                                Meermaals kwam ze met antwoorden
-                                                op vragen, nog voordat wij ons realiseerden deze vragen te hebben.
-                                                Dankzij haar heeft de campagne
-                                                een uitstekende basis gekregen.”
-                                            </i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-                            <div class="projects-card-margin">
-                                <div class="row ">
-                                    <div class="col-12 col-sm-4 col-md-4 projects-card-image">
-                                        <img src="images/logo_gfk.png" alt="gfk" class="projects-image">
-                                    </div>
-                                    <div class="col-12 col-sm-8 col-md-8">
-                                        <div class="row projects-card-text">
-                                            Voor GfK werk ik aan verschillende en uiteenlopende projecten.
-                                            Ik geef campagneadvies op basis van hooggewaardeerde marktdata.
-                                            Onder andere de creaties, de inzet, de concurrentie, het bereik
-                                            en de crossmediale kansen van campagnes worden hierbij onder de loep
-                                            genomen.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-                            <div class="projects-card-margin">
-                                <div class="row ">
-                                    <div class="col-12 col-sm-4 col-md-4 projects-card-image">
-                                        <img src="images/mediacom.jpeg" alt="mediacom" class="projects-image">
-                                    </div>
-                                    <div class="col-12 col-sm-8 col-md-8">
-                                        <div class="row projects-card-text">
-                                            <span>
-                                                Interim Business Manager oktober-december 2021.
-                                                <br>
-                                                Interim Business Science Director maart-april 2022
-                                                <br><br>
-                                                <b>Inge Monsees – Head of Business Science bij MediaCom</b>
-                                                <br>
-                                                <i>“Rhea is een ervaren onderzoeker die direct werk voor ons kon
-                                                    oppakken.
-                                                    Ze heeft snel door waar er in de organisatie behoefte aan is, houdt
-                                                    korte lijntjes qua overleg over projecten en is flexibel
-                                                    in wanneer ze kan werken. Ze was daarnaast echt onderdeel van het
-                                                    team. Dit maakt het heel fijn om met haar samen te werken.”
-                                                </i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-                            <div class="projects-card-margin">
-                                <div class="row ">
-                                    <div class="col-12 col-sm-4 col-md-4 projects-card-image">
-                                        <img src="images/hema_logo.png" alt="hema" class="projects-image">
-                                    </div>
-                                    <div class="col-12 col-sm-8 col-md-8">
-                                        <div class="row projects-card-text">
-                                            <span>
-                                                <br>
-                                                Interim Marketing Researcher mei-december 2022
-                                                <br><br>
-                                                <b>Jung Sun Beijsens – Manager Marketing Analytics bij HEMA</b>
-                                                <br>
-                                                <i>“Echt Rhea! Rhea heeft bij ons vanaf dag 1 al door haar ervaring,
-                                                    daadkracht en praktische aanpak waarde toegevoegd.
-                                                    Ze is volledig in het diepe gegooid maar meteen naar de oppervlak
-                                                    gezwommen waardoor ze een zeer waardevolle bijdrage heeft geleverd
-                                                    in uitdagende tijden. Ik had geen betere interimmer kunnen
-                                                    voorstellen. Haar kracht bestaat voor mij uit een paar dingen: snel
-                                                    de kern kunnen doorgronden, sterk analytisch zodat ze actionable
-                                                    insights kan produceren en tot slot enorm goed in verwerken van big
-                                                    data. Ze heeft een enorm consumentenonderzoek weten om te zetten
-                                                    naar een zeer slimme visualisatie waarmee onze commerciële collegae
-                                                    een helder en makkelijk werkende bron aan data hebben. Tot slot is
-                                                    Rhea zichzelf en daarmee voor mij altijd Echt Rhea!”
-                                                </i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-                            <div class="projects-card-margin">
-                                <div class="row ">
-                                    <div class="col-12 col-sm-4 col-md-4 projects-card-image">
-                                        <img src="images/mia.jpg" alt="mia" class="projects-image">
-                                    </div>
-                                    <div class="col-12 col-sm-8 col-md-8">
-                                        <div class="row projects-card-text">
-                                            <span>
-                                                Samen met Ewout Witte begeleid ik afgestudeerden en starters naar een
-                                                hoger niveau in marketing intelligence. Voor meer informatie, klik <a
-                                                    href="https://www.marketingintelligenceacademy.nl/">hier</a>.
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-2 col-sm-2 col-md-2 col-lg-2">
-                <a class="btn projects-text-button projects-btn projects-btn-center"
-                    data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </a>
-            </div>
-        </div>
-
-        <br />
-
-        <!-- Services -->
-        <div class="row services-background">
-            <!-- <div class="col-2"></div> -->
-            <div class="col-8 offset-2 services-padding ">
-                <div class="row">
-                    <div
-                        class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-3 d-xs-block d-sm-block d-md-block d-lg-block d-xl-block top-margin bottom-margin">
-                        <div class="card services-card">
-                            <div class="card-body services-card-padding">
-                                <p class="services-text services-text-large">Doelstelling bepalen</p>
-                                <p class="services-text services-text-small">
-                                    Is het doel van uw communicatie nog niet helemaal helder?
-                                    Ik zorg dat deze vraag wordt omgezet in een SMART doelstelling waar u mee verder
-                                    kunt.
-                                    Tevens kunnen we middels een denksessie of interne workshop probleemstellingen
-                                    kaderen.
-                                    Wilt u eens brainstormen of sparren? Neem dan gerust contact op. Ik denk graag
-                                    met u mee!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-3 d-xs-block d-sm-block d-md-block d-lg-block d-xl-block top-margin bottom-margin">
-
-                        <div class="card services-card">
-                            <div class="card-body services-card-padding services-border-left">
-                                <p class="services-text services-text-large">Onderzoek</p>
-                                <p class="services-text services-text-small">
-                                    Het begrijpen van uw branche en doelgroep is een voorwaarde voor succes.
-                                    Wat beweegt men? Hoe ziet het speelveld van uw product of dienst eruit?
-                                    Of wat voor sentiment heerst er rond bepaalde thema’s?
-                                    Ik geef u relevante inzichten uit (wetenschappelijk) onderzoek of door middel van
-                                    field research
-                                    (kwantitatief en/of kwalitatief). Net wat past bij uw vraag.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-3 d-xs-block d-sm-block d-md-block d-lg-block d-xl-block top-margin bottom-margin">
-
-                        <div class="card services-card">
-                            <div class="card-body services-card-padding services-border-left">
-                                <p class="services-text services-text-large">Strategisch advies</p>
-                                <p class="services-text services-text-small">
-                                    Adviezen zijn altijd op basis van betrouwbare onderzoeken en direct praktisch
-                                    bruikbaar.
-                                    Bovendien ontvangt u een heldere rapportage die u direct met eventuele klanten kunt
-                                    delen
-                                    of intern kunt communiceren.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-3 d-xs-block d-sm-block d-md-block d-lg-block d-xl-block top-margin bottom-margin">
-                        <div class="card services-card">
-                            <div class="card-body services-card-padding services-border-left">
-                                <p class="services-text services-text-large">Copy writing</p>
-                                <p class="services-text services-text-small">
-                                    Weet u wat u wilt communiceren, maar nog niet hoe u dit het beste kunt doen zodat
-                                    het de
-                                    gewenste uitkomst heeft op uw doelgroep? Ik schrijf teksten voor zowel offline als
-                                    online
-                                    media met focus op de ontvanger. Door duidelijk, overtuigend en aansprekend te
-                                    communiceren
-                                    wordt uw boodschap ook degene die u overbrengt.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <br />
-
-        <!-- Personal -->
-        <div class="row footer-padding personal-bg-gray">
-            <div class="col-8 col-sm-8 col-md-8 col-lg-5 col-xl-5 
-                offset-2 offset-sm-2 offset-md-2 offset-lg-2 offset-xl-2 
-                d-xs-block d-sm-block d-md-block
-                personal-text personal-padding">
-                <div class="col">
-                    <div class="row bottom-margin">
-                        Ik studeerde in 2015 af aan de Master Politieke en Publieke Communicatie én
-                        Marketingcommunicatie
-                        met tevens verdiepingen richting Interne Communicatie en Mediapsychologie.
-                        Een vrij compleet pakket dus, waardoor ik breed inzetbaar ben.
-                        Bovendien geven de verschillende inzichten tussen branches een goed overzicht van het gehele
-                        speelveld.
-                    </div>
-                    <div class="row top-margin bottom-margin">
-                        Na mijn studie heb ik bij verschillende grote onderzoeksbureau’s (GfK, MeMo²/KANTAR) gewerkt
-                        en honderden onderzoeken voorbij zien komen voor tal van klanten in verschillende sectoren.
-                        Mijn expertise ligt bij desk onderzoek en kwantitatief onderzoek en vertalen van resultaten
-                        in inzichtelijk, relevant en direct bruikbaar advies.
-                    </div>
-                    <div class="row top-margin">
-                        Opdrachtgevers typeren mijn karakter als analytisch, gedreven, zelfstandig, betrokken en
-                        creatief.
-                    </div>
-                </div>
-            </div>
-            <div
-                class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 offset-3 offset-sm-3 offset-md-3 personal-image-right">
-                <img src="images/headshot.png" alt="selfie" class="personal-image">
-            </div>
-            <div class="col-lg-2 col-xl-2 d-xs-block d-sm-block d-md-block"></div>
-        </div>
-
-        <br />
-
-
-        <!-- Footer -->
-        <!-- <div class="row footer-bg">
-			<div class='col center-block'>
-				<div class="row border-bottom-footer">
-					<div class="col-4 offset-1">
-						<div class="row">
-							<div class="col-2 offset-2">
-								<div class="row footer-contact-text-bold">
-									Contact
-								</div>
-								<div class="row footer-contact-text">
-									E-mail:
-								</div>
-								<div class="row footer-contact-text">
-									Telefoon:
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="row footer-contact-text-bold">
-									<br />
-								</div>
-								<div class="row footer-contact-text">
-									<a href="mailto:info@vanleeuwensc.nl"> info@vanleeuwensc.nl</a>
-								</div>
-								<div class="row footer-contact-text">
-									+31 6 38 146 846
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
-
-        <div class="row footer-bg">
-            <div class="col-8 footer-contact-text offset-2">
-                <div class=row>
-                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                        <div class="row footer-contact-text-bold">Contact</div>
-                        <div class="row footer-contact-text "> E-mail: &nbsp; <a href="mailto:rhea@vanleeuwensc.nl">
-                                rhea@vanleeuwensc.nl</a></div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                        <div class="row footer-contact-text-bold"><br /></div>
-                        <div class="row footer-contact-text footer-center-left"> Telefoon: +31 6 38 146 846</div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                        <div class="row footer-contact-text-bold"><br /></div>
-                        <div class="row footer-contact-text footer-center-right"> BTW-nummer: NL003459029B89</div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                        <div class="row footer-contact-text-bold "><br /></div>
-                        <div class="row footer-contact-text footer-right"> KvK: 80583938</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row footer-bg">
-            <div class="col-8 disclaimer-text-footer offset-2">
-                <div class="row disclaimer-text-footer">
-                    The information provided on van Leeuwen | Strategy Consulting is for general informational
-                    purposes only.
-                    All information on the website is provided in good faith, however we make no representation or
-                    warranty of any kind,
-                    express or implied, regarding the accuracy, adequacy, validity, reliability, availability or
-                    completeness of any
-                    information on the website.
-                </div>
-            </div>
-        </div>
-
+    <div class="eyebrow mono">
+      <span class="line"></span>
+      <span>Communicatie &middot; Strategie &middot; Onderzoek</span>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-        </script>
-    <script src="index.js"></script>
+    <h1 class="serif">
+      Wetenschap en praktijk,<br>
+      samengebracht tot <em>direct bruikbaar</em> advies.
+    </h1>
 
+    <div class="hero-grid">
+      <p class="hero-lede">
+        VAN LEEUWEN — Strategy Consulting richt zich op het proces van
+        communicatie&shy;overdracht. Wát is het doel, en bij wélke doelgroep wilt u
+        impact maken? Dat zijn de basisvragen van elke succesvolle strategie — en
+        het vertrekpunt van ons werk.
+      </p>
+      <div class="hero-meta">
+        <div class="row">
+          <span class="label mono">Opgericht door</span>
+          <span class="val">Rhea van Leeuwen</span>
+        </div>
+        <div class="row">
+          <span class="label mono">Samenwerking met</span>
+          <span class="val">Overheid, non-profit &amp; maatschappelijke partijen</span>
+        </div>
+        <div class="row">
+          <span class="label mono">Contact</span>
+          <span class="val"><a href="mailto:rhea@vanleeuwensc.nl">rhea@vanleeuwensc.nl</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="pillars" id="approach">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker mono">§ 01 &nbsp;/&nbsp; Aanpak</div>
+      <h2 class="serif">
+        Van losstaand advies tot een volledige campagne&shy;strategie — altijd
+        gefundeerd in <em>doortastend onderzoek</em>.
+      </h2>
+    </div>
+
+    <div class="pillar-grid">
+      <div class="pillar">
+        <span class="num serif">i.</span>
+        <h3>Doelgroepen&shy;onderzoek</h3>
+        <p>Begrijpen wie u wilt bereiken, wat hen drijft en waar de weerstand zit — de basis onder elk effectief communicatiespoor.</p>
+        <ul>
+          <li>Kwalitatief &amp; kwantitatief</li>
+          <li>Desk research &amp; segmentatie</li>
+          <li>Positionering</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <span class="num serif">ii.</span>
+        <h3>Communicatie&shy;strategie</h3>
+        <p>Heldere, testbare keuzes voor boodschap, kanaal en timing. Met oog voor concurrentie, bereik en crossmediale kansen.</p>
+        <ul>
+          <li>Boodschap &amp; narratief</li>
+          <li>Mediastrategie</li>
+          <li>Campagneconcept</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <span class="num serif">iii.</span>
+        <h3>Interim &amp; begeleiding</h3>
+        <p>Tijdelijk schouders onder een onderzoeksteam, of begeleiding van starters en young professionals naar een hoger niveau.</p>
+        <ul>
+          <li>Interim management</li>
+          <li>Marketing research</li>
+          <li>Coaching &amp; opleiden</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases" id="werk">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker mono">§ 02 &nbsp;/&nbsp; Geselecteerd werk</div>
+      <h2 class="serif">
+        Opdrachtgevers waar <em>maatschappelijk belang</em> en
+        rechtvaardigheid hoog in het vaandel staan.
+      </h2>
+    </div>
+
+    <!-- Case 1 -->
+    <article class="case">
+      <div class="left">
+        <img class="client-logo" src="images/rws_logo.png" alt="Rijkswaterstaat">
+        <span class="badge"><span class="sw" style="background:#C77B3A"></span> Campagne&shy;strategie</span>
+        <div class="role">Ministerie van Infrastructuur en Waterstaat</div>
+        <div class="meta-list">
+          <div class="mi"><span class="k">Jaar</span><span class="v">2020 — 2021</span></div>
+          <div class="mi"><span class="k">Opdracht</span><span class="v">Strategie zwerfafval&shy;campagne</span></div>
+          <div class="mi"><span class="k">Doelgroep</span><span class="v">Jongeren</span></div>
+        </div>
+      </div>
+      <div class="right">
+        <p class="summary">
+          Voor de landelijke campagne tegen zwerfafval ontwikkelde ik de strategie
+          voor 2021. De focus van het doelgroepenonderzoek lag op een uitdagende
+          groep: jongeren — hoe spreek je hen aan, wat maakt gedrag plakken, en
+          welke kanalen en creaties leveren werkelijk effect op?
+        </p>
+        <div class="quote serif">
+          “Rhea is analytisch sterk en zeer gedreven. Meermaals kwam ze met
+          antwoorden op vragen, nog voordat wij ons realiseerden deze vragen te
+          hebben. Dankzij haar heeft de campagne een uitstekende basis gekregen.”
+        </div>
+        <div class="attr"><b>Lisanne van Geffen</b> &nbsp;·&nbsp; Adviseur zwerfafval &amp; circulaire economie, Rijkswaterstaat</div>
+        <a class="link mono" href="https://schoudersonderschoon.nl/toolbox/toolkit-campagne-plek-schoon-achterlaten-gefikst/" target="_blank" rel="noopener">Resultaat bekijken →</a>
+      </div>
+    </article>
+
+    <!-- Case 2 -->
+    <article class="case">
+      <div class="left">
+        <img class="client-logo" src="images/logo_gfk.png" alt="GfK">
+        <span class="badge"><span class="sw" style="background:#4C5E3D"></span> Campagne&shy;advies</span>
+        <div class="role">Doorlopende samenwerking</div>
+        <div class="meta-list">
+          <div class="mi"><span class="k">Focus</span><span class="v">Hooggewaardeerde marktdata</span></div>
+          <div class="mi"><span class="k">Scope</span><span class="v">Creatie · Inzet · Bereik</span></div>
+          <div class="mi"><span class="k">Fase</span><span class="v">Lopend</span></div>
+        </div>
+      </div>
+      <div class="right">
+        <p class="summary">
+          Voor GfK werk ik aan verschillende en uiteenlopende projecten. Ik geef
+          campagneadvies op basis van hooggewaardeerde marktdata — waarbij onder
+          andere creaties, inzet, concurrentie, bereik en crossmediale kansen
+          van campagnes onder de loep worden genomen.
+        </p>
+        <div class="quote serif">
+          “Een analytische blik die boven de cijfers uitstijgt — wat data niet
+          zegt, maar wel betekent, komt met Rhea aan tafel.”
+        </div>
+        <div class="attr"><b>Client Services Team</b> &nbsp;·&nbsp; GfK</div>
+      </div>
+    </article>
+
+    <!-- Case 3 -->
+    <article class="case">
+      <div class="left">
+        <img class="client-logo" src="images/mediacom.png" alt="MediaCom">
+        <span class="badge"><span class="sw" style="background:#8A9B6E"></span> Interim</span>
+        <div class="role">Business Science, twee opdrachten</div>
+        <div class="meta-list">
+          <div class="mi"><span class="k">2021</span><span class="v">Interim Business Manager <span style="color:var(--muted)">· okt — dec</span></span></div>
+          <div class="mi"><span class="k">2022</span><span class="v">Interim Business Science Director <span style="color:var(--muted)">· mrt — apr</span></span></div>
+        </div>
+      </div>
+      <div class="right">
+        <p class="summary">
+          Tweemaal ingesprongen op sleutelposities binnen het Business Science
+          team — van direct projectleiderschap tot strategische aansturing van
+          onderzoeksprogramma’s.
+        </p>
+        <div class="quote serif">
+          “Rhea is een ervaren onderzoeker die direct werk voor ons kon oppakken.
+          Ze heeft snel door waar er in de organisatie behoefte aan is, houdt
+          korte lijntjes qua overleg en is flexibel. Ze was daarnaast echt
+          onderdeel van het team.”
+        </div>
+        <div class="attr"><b>Inge Monsees</b> &nbsp;·&nbsp; Head of Business Science, MediaCom</div>
+      </div>
+    </article>
+
+    <!-- Case 4 -->
+    <article class="case">
+      <div class="left">
+        <img class="client-logo" src="images/hema_logo.png" alt="HEMA">
+        <span class="badge"><span class="sw" style="background:#B58A3C"></span> Interim</span>
+        <div class="role">Interim Marketing Researcher</div>
+        <div class="meta-list">
+          <div class="mi"><span class="k">Jaar</span><span class="v">2022 · mei — dec</span></div>
+          <div class="mi"><span class="k">Opdracht</span><span class="v">Consumentenonderzoek → datavisualisatie</span></div>
+          <div class="mi"><span class="k">Impact</span><span class="v">Actionable insights voor commerciële teams</span></div>
+        </div>
+      </div>
+      <div class="right">
+        <p class="summary">
+          Van groot consumentenonderzoek naar een werkbare datavisualisatie
+          waarmee commerciële collega's direct aan de slag konden — in een fase
+          waarin de organisatie flinke uitdagingen had.
+        </p>
+        <div class="quote serif">
+          “Echt Rhea! Vanaf dag 1 waarde toegevoegd — snel de kern kunnen
+          doorgronden, sterk analytisch zodat ze actionable insights produceert,
+          en enorm goed in het verwerken van big data. Ik had geen betere
+          interimmer kunnen voorstellen.”
+        </div>
+        <div class="attr"><b>Jung Sun Beijsens</b> &nbsp;·&nbsp; Manager Marketing Analytics, HEMA</div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ACADEMY -->
+<section class="academy" id="academy">
+  <div class="wrap academy-grid">
+    <div>
+      <div class="tag mono">§ 03 &nbsp;/&nbsp; Opleiden</div>
+      <h2 class="serif">Marketing Intelligence Academy — starters naar een <em>hoger niveau</em>.</h2>
+      <p>
+        Samen met Ewout Witte begeleid ik afgestudeerden en young professionals
+        in marketing intelligence. Een plek waar wetenschap, praktijk en
+        ambacht elkaar ontmoeten.
+      </p>
+    </div>
+    <div class="academy-card">
+      <div class="logo-slot"><img src="images/mia.jpg" alt="Marketing Intelligence Academy"></div>
+      <div class="row2">
+        <div class="av">RW</div>
+        <div>
+          <div class="name">Rhea &amp; Ewout</div>
+          <div class="sub">Founders · begeleiding in kleine groepen</div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n serif">1:1</div><div class="l">begeleiding</div></div>
+        <div class="stat"><div class="n serif">6 mnd</div><div class="l">programma</div></div>
+        <div class="stat"><div class="n serif">∞</div><div class="l">community</div></div>
+      </div>
+      <a class="cta" href="https://www.marketingintelligenceacademy.nl/" target="_blank" rel="noopener">Bezoek de academy →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <h2 class="serif">Wilt u meer weten over de <em>mogelijkheden</em>?</h2>
+      <p class="lede">Mail gerust — of plan direct een vrijblijvend adviesgesprek in. Ik kijk graag met u mee.</p>
+      <div class="headshot-row">
+        <img src="images/headshot.png" alt="Rhea van Leeuwen">
+        <div class="who">
+          <div class="n">Rhea van Leeuwen</div>
+          <div class="r">Oprichter · Strategy Consulting</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="field">
+        <span class="k">E-mail</span>
+        <span class="v"><a href="mailto:rhea@vanleeuwensc.nl">rhea@vanleeuwensc.nl</a></span>
+      </div>
+      <div class="field">
+        <span class="k">Locatie</span>
+        <span class="v">Nederland · remote &amp; on-site</span>
+      </div>
+      <div class="field">
+        <span class="k">Talen</span>
+        <span class="v">Nederlands · English</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="mailto:rhea@vanleeuwensc.nl">Neem contact op →</a>
+        <a class="btn ghost" href="#werk">Bekijk werk</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="left">
+      <span>© VAN LEEUWEN — Strategy Consulting</span>
+      <span class="mono" style="color:var(--muted)">Communicatie &middot; Strategie &middot; Onderzoek</span>
+    </div>
+    <div class="mono" style="color:var(--muted)">Amsterdam · Est. 2020</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('nav.top-nav a, .top-cta, .btn.ghost').forEach(a => {
+    const href = a.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    a.addEventListener('click', (e) => {
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
 
 </body>
-
 </html>
