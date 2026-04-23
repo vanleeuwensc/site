@@ -399,14 +399,86 @@
   .foot-inner { display:flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap; }
   .foot-inner .left { display: flex; gap: 22px; align-items: baseline; }
 
+  /* ---------- responsive ---------- */
   @media (max-width: 900px){
-    .hero-grid, .academy-grid, .contact-grid, .section-head, .case { grid-template-columns: 1fr; gap: 32px; }
-    .pillar-grid { grid-template-columns: 1fr; }
-    .pillar { border-right: none; border-bottom: 1px solid var(--rule); padding: 24px 0 !important; }
-    .hero-tag { display: none; }
     .wrap { padding: 0 24px; }
     nav.top-nav { display: none; }
+    .hero-tag { display: none; }
+
+    .top-inner { height: 64px; }
+    .brand img.mark { height: 30px; }
+
+    .hero { padding: 56px 0 48px; }
+    .hero .eyebrow { margin-bottom: 24px; }
+    .hero h1 { margin-bottom: 28px; }
+    .hero-grid,
+    .academy-grid,
+    .contact-grid,
+    .section-head,
+    .case { grid-template-columns: 1fr; gap: 32px; }
+    .hero-lede { font-size: 18px; }
+    .hero-meta { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 24px; }
+
+    section.pillars,
+    section.cases,
+    section.academy,
+    section.contact { padding: 64px 0; }
+
+    .section-head { margin-bottom: 32px; gap: 20px; }
+
+    .pillar-grid { grid-template-columns: 1fr; }
+    .pillar {
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+      padding: 28px 0 !important;
+      min-height: 0;
+    }
+    .pillar:last-child { border-bottom: none; }
+
+    .case { padding: 36px 0; gap: 28px; }
+    .case .client-logo { height: 56px; }
+    .case .quote { font-size: 17px; padding-left: 16px; }
+
+    .academy-card { padding: 22px; }
+    .academy-card .logo-slot { height: 90px; padding: 14px 16px; }
+    .academy-card .stat .n { font-size: 22px; }
+
+    .contact-card { padding: 22px; }
+    .contact-card .actions { flex-wrap: wrap; }
+    .btn { flex: 1 1 auto; justify-content: center; }
+
+    .foot-inner { flex-direction: column; gap: 8px; }
+    .foot-inner .left { flex-direction: column; gap: 4px; }
   }
+
+  @media (max-width: 560px){
+    body { font-size: 15px; }
+    .wrap { padding: 0 18px; }
+
+    /* compact header: shorten CTA text via data-swap */
+    .top-cta .full { display: none; }
+    .top-cta .short { display: inline; }
+    .top-cta { padding: 9px 14px; font-size: 12px; }
+
+    .hero { padding: 40px 0 36px; }
+    .hero .eyebrow .line { width: 24px; }
+
+    .case .meta-list .mi,
+    .contact-card .field {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+    .contact-card .field { padding: 10px 0; }
+
+    .contact .headshot-row img { width: 60px; height: 60px; }
+
+    .academy-card .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .academy-card .stat .n { font-size: 20px; }
+    .academy-card .stat .l { font-size: 10px; }
+  }
+
+  /* by default the short label is hidden; shown on small screens */
+  .top-cta .short { display: none; }
 </style>
 </head>
 <body>
@@ -423,7 +495,9 @@
       <a href="#contact">Contact</a>
     </nav>
     <a class="top-cta" href="#contact">
-      <span class="dot"></span> Plan een adviesgesprek
+      <span class="dot"></span>
+      <span class="full">Plan een adviesgesprek</span>
+      <span class="short">Contact</span>
     </a>
   </div>
 </header>
@@ -445,7 +519,7 @@
       <p class="hero-lede">
         VAN LEEUWEN – Strategy Consulting is opgericht door Rhea van Leeuwen en
         richt zich op het proces van communicatie overdracht. Wat is het doel
-        van de communicatie en bij welke doelgroep wilt u impact maken zijn de
+        van de communicatie en bij welke doelgroep wil je impact maken zijn de
         basisvragen van een succesvolle communicatiestrategie. VAN LEEUWEN -
         Strategy Consulting brengt wetenschap en praktijk samen door middel van
         doortastend onderzoek, samengevat in direct bruikbare adviezen.
@@ -483,7 +557,7 @@
       <div class="pillar">
         <span class="num serif">i.</span>
         <h3>Doelgroepen&shy;onderzoek</h3>
-        <p>Begrijpen wie u wilt bereiken, wat hen drijft en waar de weerstand zit — de basis onder elk effectief communicatiespoor.</p>
+        <p>Begrijpen wie je wil bereiken, wat hen drijft en waar de weerstand zit — de basis onder elk effectief communicatiespoor.</p>
         <ul>
           <li>Kwalitatief &amp; kwantitatief</li>
           <li>Desk research &amp; segmentatie</li>
@@ -666,7 +740,7 @@
 <section class="contact" id="contact">
   <div class="wrap contact-grid">
     <div>
-      <h2 class="serif">Wilt u meer weten over de <em>mogelijkheden</em>?</h2>
+      <h2 class="serif">Wilt je meer weten over de <em>mogelijkheden</em>?</h2>
       <p class="lede">Mail gerust of plan een vrijblijvend adviesgesprek in.</p>
       <div class="headshot-row">
         <img src="images/headshot.png" alt="Rhea van Leeuwen">
